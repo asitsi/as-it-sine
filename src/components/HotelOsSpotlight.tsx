@@ -89,7 +89,7 @@ export function HotelOsSpotlight() {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Animated gradient outer frame */}
         <div className="relative rounded-[2.1rem] p-[1.5px] bg-gradient-to-r from-cyan-400 via-blue-500 to-violet-600 animate-gradient-pan shadow-2xl shadow-cyan-500/15 dark:shadow-cyan-500/20">
-          <div className="relative rounded-[2rem] bg-white/95 dark:bg-[#090f22]/95 p-8 sm:p-12 lg:p-14 backdrop-blur-xl overflow-hidden">
+          <div className="relative rounded-[2rem] bg-white/95 dark:bg-[#090f22]/95 p-5 sm:p-10 lg:p-14 backdrop-blur-xl overflow-hidden">
             {/* Subtle top animated wave accent */}
             <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-violet-500 animate-gradient-pan" />
 
@@ -173,7 +173,7 @@ export function HotelOsSpotlight() {
                 onMouseEnter={() => setIsPaused(true)}
                 onMouseLeave={() => setIsPaused(false)}
               >
-                <div className="rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/90 dark:bg-[#060a17] p-6 sm:p-7 shadow-inner">
+                <div className="rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/90 dark:bg-[#060a17] p-4 sm:p-7 shadow-inner">
                   <div className="flex items-center justify-between gap-4 mb-5">
                     <div>
                       <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-cyan-600 dark:text-cyan-400">

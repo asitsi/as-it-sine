@@ -121,14 +121,14 @@ export default function HotelOnboardingPage() {
         </div>
 
         {/* Progress Bar */}
-        <div className="mb-10 rounded-2xl border border-slate-200/80 dark:border-slate-800/90 bg-white/80 dark:bg-[#0b1124]/80 p-5 backdrop-blur-md shadow-sm">
-          <div className="flex items-center justify-between mb-4">
+        <div className="mb-8 sm:mb-10 rounded-2xl border border-slate-200/80 dark:border-slate-800/90 bg-white/80 dark:bg-[#0b1124]/80 p-3.5 sm:p-5 backdrop-blur-md shadow-sm">
+          <div className="flex items-start justify-between gap-1 mb-4">
             {steps.map((step) => {
               const completedOrActive = step.number <= currentStepIndex + 1;
               return (
-                <div key={step.key} className="flex flex-col items-center">
+                <div key={step.key} className="flex flex-1 flex-col items-center text-center">
                   <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
+                    className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold transition-all duration-300 ${
                       completedOrActive
                         ? "sine-gradient-bg text-white shadow-lg shadow-cyan-500/20"
                         : "bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400"
@@ -137,7 +137,7 @@ export default function HotelOnboardingPage() {
                     {completedOrActive ? "✓" : step.number}
                   </div>
                   <span
-                    className={`text-xs mt-2 font-semibold ${
+                    className={`text-[10px] sm:text-xs mt-1.5 sm:mt-2 font-semibold leading-tight ${
                       completedOrActive
                         ? "text-cyan-700 dark:text-cyan-300"
                         : "text-slate-400 dark:text-slate-500"
@@ -159,7 +159,7 @@ export default function HotelOnboardingPage() {
         </div>
 
         {/* Card */}
-        <div className="relative overflow-hidden bg-white/90 dark:bg-[#0b1124]/90 rounded-3xl shadow-2xl shadow-blue-950/10 dark:shadow-cyan-950/30 p-7 sm:p-10 border border-slate-200/90 dark:border-slate-800 backdrop-blur-xl">
+        <div className="relative overflow-hidden bg-white/90 dark:bg-[#0b1124]/90 rounded-3xl shadow-2xl shadow-blue-950/10 dark:shadow-cyan-950/30 p-5 sm:p-10 border border-slate-200/90 dark:border-slate-800 backdrop-blur-xl">
           <div className="absolute inset-x-0 top-0 h-1 sine-gradient-bg" />
 
           {/* Step 1: Basic Details */}
