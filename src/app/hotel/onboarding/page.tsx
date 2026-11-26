@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { SineWaveBackdrop } from "@/components/SineWaveBackdrop";
 
 type OnboardingStep = "details" | "location" | "amenities" | "pricing" | "photos";
 
@@ -97,64 +98,78 @@ export default function HotelOnboardingPage() {
     }
   };
 
+  const inputClassName =
+    "w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-900/70 text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 outline-none transition-all";
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12 px-4">
-      <div className="max-w-3xl mx-auto">
+    <div className="relative flex-1 overflow-hidden py-12 px-4 sm:py-16">
+      <SineWaveBackdrop />
+
+      <div className="relative max-w-3xl mx-auto">
         {/* Header */}
         <div className="text-center mb-10">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            🏨 Hotel Onboarding
+          <span className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-white/80 dark:bg-slate-900/80 px-4 py-1 text-xs font-bold uppercase tracking-widest text-cyan-700 dark:text-cyan-300 backdrop-blur-md mb-4">
+            <span className="h-2 w-2 rounded-full bg-cyan-500 animate-pulse" />
+            AS-IT SINE HotelOS • Newly Launched Product
+          </span>
+          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-950 dark:text-white mb-2">
+            🏨 Hotel <span className="sine-gradient-text">Onboarding</span>
           </h1>
-          <p className="text-gray-500 text-lg">
+          <p className="text-slate-600 dark:text-slate-300 text-base sm:text-lg">
             Complete the steps below to list your hotel
           </p>
         </div>
 
         {/* Progress Bar */}
-        <div className="mb-10">
+        <div className="mb-10 rounded-2xl border border-slate-200/80 dark:border-slate-800/90 bg-white/80 dark:bg-[#0b1124]/80 p-5 backdrop-blur-md shadow-sm">
           <div className="flex items-center justify-between mb-4">
-            {steps.map((step) => (
-              <div key={step.key} className="flex flex-col items-center">
-                <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 ${
-                    step.number <= currentStepIndex + 1
-                      ? "bg-blue-600 text-white shadow-lg"
-                      : "bg-gray-200 text-gray-500"
-                  }`}
-                >
-                  {step.number <= currentStepIndex + 1 ? "✓" : step.number}
+            {steps.map((step) => {
+              const completedOrActive = step.number <= currentStepIndex + 1;
+              return (
+                <div key={step.key} className="flex flex-col items-center">
+                  <div
+                    className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
+                      completedOrActive
+                        ? "sine-gradient-bg text-white shadow-lg shadow-cyan-500/20"
+                        : "bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400"
+                    }`}
+                  >
+                    {completedOrActive ? "✓" : step.number}
+                  </div>
+                  <span
+                    className={`text-xs mt-2 font-semibold ${
+                      completedOrActive
+                        ? "text-cyan-700 dark:text-cyan-300"
+                        : "text-slate-400 dark:text-slate-500"
+                    }`}
+                  >
+                    {step.label}
+                  </span>
                 </div>
-                <span
-                  className={`text-xs mt-2 font-medium ${
-                    step.number <= currentStepIndex + 1
-                      ? "text-blue-600"
-                      : "text-gray-400"
-                  }`}
-                >
-                  {step.label}
-                </span>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
-          <div className="relative h-1 bg-gray-200 rounded-full overflow-hidden">
+          <div className="relative h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
             <div
-              className="absolute top-0 left-0 h-full bg-blue-600 transition-all duration-500 rounded-full"
+              className="absolute top-0 left-0 h-full sine-gradient-bg transition-all duration-500 rounded-full"
               style={{ width: `${((currentStepIndex + 1) / steps.length) * 100}%` }}
             />
           </div>
         </div>
 
         {/* Card */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+        <div className="relative overflow-hidden bg-white/90 dark:bg-[#0b1124]/90 rounded-3xl shadow-2xl shadow-blue-950/10 dark:shadow-cyan-950/30 p-7 sm:p-10 border border-slate-200/90 dark:border-slate-800 backdrop-blur-xl">
+          <div className="absolute inset-x-0 top-0 h-1 sine-gradient-bg" />
+
           {/* Step 1: Basic Details */}
           {currentStep === "details" && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-bold text-slate-950 dark:text-white mb-4">
                 Basic Details
               </h2>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                   Hotel Name *
                 </label>
                 <input
@@ -162,11 +177,11 @@ export default function HotelOnboardingPage() {
                   value={hotelName}
                   onChange={(e) => setHotelName(e.target.value)}
                   placeholder="e.g. Grand Paradise Resort"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                  className={inputClassName}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                   Description *
                 </label>
                 <textarea
@@ -174,18 +189,18 @@ export default function HotelOnboardingPage() {
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Tell guests about your hotel..."
                   rows={4}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none"
+                  className={`${inputClassName} resize-none`}
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                     Star Rating *
                   </label>
                   <select
                     value={starRating}
                     onChange={(e) => setStarRating(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                    className={inputClassName}
                   >
                     <option value="">Select rating</option>
                     <option value="1">⭐ 1 Star</option>
@@ -196,7 +211,7 @@ export default function HotelOnboardingPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                     Number of Rooms *
                   </label>
                   <input
@@ -205,7 +220,7 @@ export default function HotelOnboardingPage() {
                     onChange={(e) => setRoomCount(e.target.value)}
                     placeholder="e.g. 50"
                     min="1"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                    className={inputClassName}
                   />
                 </div>
               </div>
@@ -215,11 +230,11 @@ export default function HotelOnboardingPage() {
           {/* Step 2: Location */}
           {currentStep === "location" && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-bold text-slate-950 dark:text-white mb-4">
                 Location Details
               </h2>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                   Street Address *
                 </label>
                 <input
@@ -227,12 +242,12 @@ export default function HotelOnboardingPage() {
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                   placeholder="e.g. 123 Ocean View Drive"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                  className={inputClassName}
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                     City *
                   </label>
                   <input
@@ -240,11 +255,11 @@ export default function HotelOnboardingPage() {
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                     placeholder="e.g. Miami"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                    className={inputClassName}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                     Country *
                   </label>
                   <input
@@ -252,7 +267,7 @@ export default function HotelOnboardingPage() {
                     value={country}
                     onChange={(e) => setCountry(e.target.value)}
                     placeholder="e.g. USA"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                    className={inputClassName}
                   />
                 </div>
               </div>
@@ -262,40 +277,43 @@ export default function HotelOnboardingPage() {
           {/* Step 3: Amenities */}
           {currentStep === "amenities" && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+              <h2 className="text-2xl font-bold text-slate-950 dark:text-white mb-2">
                 Amenities & Facilities
               </h2>
-              <p className="text-gray-500 mb-4">
+              <p className="text-slate-500 dark:text-slate-400 mb-4">
                 Select all amenities that your hotel offers
               </p>
-              <div className="grid grid-cols-2 gap-3">
-                {amenitiesList.map((amenity) => (
-                  <button
-                    key={amenity}
-                    type="button"
-                    onClick={() => toggleAmenity(amenity)}
-                    className={`px-4 py-3 rounded-xl border text-left transition-all ${
-                      selectedAmenities.includes(amenity)
-                        ? "border-blue-500 bg-blue-50 text-blue-700 font-medium"
-                        : "border-gray-300 text-gray-700 hover:border-blue-300 hover:bg-gray-50"
-                    }`}
-                  >
-                    <span className="flex items-center gap-2">
-                      <span
-                        className={`w-5 h-5 rounded border flex items-center justify-center ${
-                          selectedAmenities.includes(amenity)
-                            ? "bg-blue-600 border-blue-600"
-                            : "border-gray-400"
-                        }`}
-                      >
-                        {selectedAmenities.includes(amenity) && (
-                          <span className="text-white text-xs">✓</span>
-                        )}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {amenitiesList.map((amenity) => {
+                  const selected = selectedAmenities.includes(amenity);
+                  return (
+                    <button
+                      key={amenity}
+                      type="button"
+                      onClick={() => toggleAmenity(amenity)}
+                      className={`px-4 py-3 rounded-xl border text-left transition-all cursor-pointer ${
+                        selected
+                          ? "border-cyan-500 bg-cyan-500/10 text-cyan-700 dark:text-cyan-300 font-semibold shadow-sm"
+                          : "border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-cyan-500/50 hover:bg-slate-50 dark:hover:bg-slate-900/60"
+                      }`}
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <span
+                          className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${
+                            selected
+                              ? "sine-gradient-bg border-transparent"
+                              : "border-slate-400 dark:border-slate-600"
+                          }`}
+                        >
+                          {selected && (
+                            <span className="text-white text-xs font-bold">✓</span>
+                          )}
+                        </span>
+                        {amenity}
                       </span>
-                      {amenity}
-                    </span>
-                  </button>
-                ))}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -303,10 +321,12 @@ export default function HotelOnboardingPage() {
           {/* Step 4: Pricing */}
           {currentStep === "pricing" && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">Pricing</h2>
-              <div className="grid grid-cols-2 gap-4">
+              <h2 className="text-2xl font-bold text-slate-950 dark:text-white mb-4">
+                Pricing
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                     Base Price per Night *
                   </label>
                   <input
@@ -316,17 +336,17 @@ export default function HotelOnboardingPage() {
                     placeholder="e.g. 150"
                     min="0"
                     step="0.01"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                    className={inputClassName}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-2">
                     Currency
                   </label>
                   <select
                     value={currency}
                     onChange={(e) => setCurrency(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                    className={inputClassName}
                   >
                     <option value="USD">USD ($)</option>
                     <option value="EUR">EUR (€)</option>
@@ -337,8 +357,8 @@ export default function HotelOnboardingPage() {
                 </div>
               </div>
               {basePrice && (
-                <div className="bg-green-50 border border-green-200 rounded-xl p-4 mt-4">
-                  <p className="text-green-800 font-medium">
+                <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-4 mt-4">
+                  <p className="text-emerald-700 dark:text-emerald-300 font-semibold">
                     ✓ Base rate set to{" "}
                     {new Intl.NumberFormat("en-US", { style: "currency", currency }).format(Number(basePrice))}
                     {" "}/ night
@@ -351,18 +371,22 @@ export default function HotelOnboardingPage() {
           {/* Step 5: Photos */}
           {currentStep === "photos" && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">Photos & Media</h2>
-              <p className="text-gray-500 mb-4">
+              <h2 className="text-2xl font-bold text-slate-950 dark:text-white mb-2">
+                Photos & Media
+              </h2>
+              <p className="text-slate-500 dark:text-slate-400 mb-4">
                 Upload photos of your hotel to attract more guests
               </p>
               <div
-                className="border-2 border-dashed border-gray-300 rounded-xl p-12 text-center hover:border-blue-400 transition-colors cursor-pointer"
+                className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-12 text-center hover:border-cyan-500/60 bg-slate-50/50 dark:bg-slate-900/40 transition-colors cursor-pointer"
                 onClick={() => document.getElementById("file-upload")?.click()}
               >
                 <input id="file-upload" type="file" multiple accept="image/*" className="hidden" />
                 <div className="text-4xl mb-3">📸</div>
-                <p className="text-gray-600 font-medium">Click to upload photos</p>
-                <p className="text-gray-400 text-sm mt-1">
+                <p className="text-slate-700 dark:text-slate-200 font-semibold">
+                  Click to upload photos
+                </p>
+                <p className="text-slate-400 dark:text-slate-500 text-sm mt-1">
                   PNG, JPG or WEBP (max. 5MB each)
                 </p>
               </div>
@@ -370,20 +394,20 @@ export default function HotelOnboardingPage() {
           )}
 
           {/* Navigation Buttons */}
-          <div className="flex items-center justify-between mt-10 pt-6 border-t border-gray-200">
+          <div className="flex items-center justify-between mt-10 pt-6 border-t border-slate-200/80 dark:border-slate-800">
             <button
               onClick={handlePrev}
               disabled={currentStepIndex === 0}
-              className={`px-6 py-3 rounded-xl font-medium transition-all ${
+              className={`px-6 py-3 rounded-full text-sm font-semibold transition-all ${
                 currentStepIndex === 0
-                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  ? "bg-slate-100 dark:bg-slate-800/60 text-slate-400 dark:text-slate-600 cursor-not-allowed"
+                  : "bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-700 cursor-pointer"
               }`}
             >
               ← Back
             </button>
 
-            <span className="text-sm text-gray-500">
+            <span className="text-xs font-mono font-semibold text-slate-500 dark:text-slate-400">
               Step {currentStepIndex + 1} of {steps.length}
             </span>
 
@@ -391,10 +415,10 @@ export default function HotelOnboardingPage() {
               <button
                 onClick={handleNext}
                 disabled={!isStepValid()}
-                className={`px-6 py-3 rounded-xl font-medium transition-all ${
+                className={`px-6 py-3 rounded-full text-sm font-semibold transition-all ${
                   isStepValid()
-                    ? "bg-blue-600 text-white hover:bg-blue-700 shadow-md"
-                    : "bg-blue-300 text-white cursor-not-allowed"
+                    ? "sine-gradient-bg text-white shadow-md shadow-cyan-500/20 hover:scale-[1.02] cursor-pointer"
+                    : "bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-600 cursor-not-allowed"
                 }`}
               >
                 Next →
@@ -403,10 +427,10 @@ export default function HotelOnboardingPage() {
               <button
                 onClick={handleSubmit}
                 disabled={!isStepValid()}
-                className={`px-8 py-3 rounded-xl font-semibold transition-all ${
+                className={`px-8 py-3 rounded-full text-sm font-semibold transition-all ${
                   isStepValid()
-                    ? "bg-green-600 text-white hover:bg-green-700 shadow-md"
-                    : "bg-green-300 text-white cursor-not-allowed"
+                    ? "bg-emerald-600 text-white hover:bg-emerald-500 shadow-md shadow-emerald-600/20 cursor-pointer"
+                    : "bg-emerald-500/30 text-white/60 cursor-not-allowed"
                 }`}
               >
                 Submit Hotel ✓
@@ -415,9 +439,9 @@ export default function HotelOnboardingPage() {
           </div>
         </div>
 
-        {/* Footer */}
-        <p className="text-center text-gray-400 text-sm mt-8">
-          Need help? Contact our support team for assistance
+        {/* Footer note */}
+        <p className="text-center text-slate-500 dark:text-slate-400 text-sm mt-8">
+          Need help? Contact our AS-IT SINE support team for assistance
         </p>
       </div>
     </div>
